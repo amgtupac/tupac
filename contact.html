@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Contact — Hills X Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:ital,wght@0,300;0,400;1,300&family=Cormorant+Garamond:ital,wght@0,300;1,300&display=swap" rel="stylesheet" />
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#0a0a0f;--fg:#e8e4d9;--muted:#6a6a7e;--accent:#c8ff47;
+  --card-bg:rgba(10,10,15,0.58);--card-border:rgba(200,255,71,0.16);
+  --hairline:0.0625rem;--ui:2rem;
+  --fd:'Bebas Neue',sans-serif;--fs:'Cormorant Garamond',serif;--fm:'DM Mono',monospace;
+}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--fg);font-family:var(--fm);overflow-x:hidden;min-height:100vh;}
+
+#webgl-canvas{position:fixed;inset:0;width:100vw;height:100vh;height:100dvh;z-index:0;pointer-events:none;}
+
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");opacity:.03;pointer-events:none;z-index:9998;}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1.5rem var(--ui);border-bottom:var(--hairline) solid rgba(200,255,71,.07);backdrop-filter:blur(18px);background:rgba(10,10,15,.25);}
+.logo{font-family:var(--fd);font-size:1.4rem;letter-spacing:.08em;color:var(--fg);text-decoration:none;}
+.logo span{color:var(--accent);}
+.nav-links{display:flex;gap:2.5rem;list-style:none;}
+.nav-links a{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .2s;}
+.nav-links a:hover,.nav-links a.active{color:var(--accent);}
+.nav-status{display:flex;align-items:center;gap:.5rem;font-size:.58rem;letter-spacing:.15em;color:var(--muted);text-transform:uppercase;}
+.dot{width:6px;height:6px;background:var(--accent);border-radius:50%;animation:blink 2s ease-in-out infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+
+#content{position:relative;z-index:1;padding-top:5rem;}
+
+.band{padding:7rem var(--ui);background:rgba(10,10,15,.7);backdrop-filter:blur(2px);border-top:var(--hairline) solid rgba(200,255,71,.07);min-height:calc(100vh - 5rem);display:flex;align-items:center;justify-content:center;}
+
+/* contact */
+.cw{text-align:center;}
+.ce{font-size:.6rem;letter-spacing:.3em;text-transform:uppercase;color:var(--accent);margin-bottom:1.5rem;}
+.ct{font-family:var(--fd);font-size:clamp(3.5rem,11vw,10rem);line-height:.88;letter-spacing:.02em;margin-bottom:2rem;}
+.ct em{font-style:normal;color:var(--accent);}
+.cd2{font-family:var(--fs);font-style:italic;font-size:1.1rem;color:rgba(232,228,217,.45);max-width:28rem;margin:0 auto 3rem;line-height:1.7;}
+.cbs{display:flex;justify-content:center;gap:1rem;flex-wrap:wrap;}
+.cb{display:inline-flex;align-items:center;gap:.6rem;padding:.85rem 2rem;font-family:var(--fm);font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;border:var(--hairline) solid var(--accent);color:var(--accent);transition:background .2s,color .2s;}
+.cb:hover{background:var(--accent);color:var(--bg);}
+.cb.sec{border-color:rgba(232,228,217,.18);color:var(--muted);}
+.cb.sec:hover{background:rgba(232,228,217,.06);color:var(--fg);border-color:rgba(232,228,217,.35);}
+
+.r{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s ease;}
+.r.v{opacity:1;transform:none;}
+.d1{transition-delay:.1s;}.d2{transition-delay:.2s;}.d3{transition-delay:.3s;}.d4{transition-delay:.4s;}
+
+footer{padding:2rem var(--ui);border-top:var(--hairline) solid rgba(255,255,255,.05);background:rgba(10,10,15,.85);display:flex;align-items:center;justify-content:space-between;position:relative;z-index:1;}
+.fl{font-family:var(--fd);font-size:1rem;letter-spacing:.08em;color:rgba(232,228,217,.25);}
+.fl span{color:rgba(200,255,71,.35);}
+.fc{font-size:.55rem;letter-spacing:.15em;color:var(--muted);text-transform:uppercase;}
+
+@media(max-width:900px){
+  nav{padding:1.25rem;}
+  .nav-links{gap:1.5rem;}
+  .band{padding:5rem 1.25rem;}
+  footer{flex-direction:column;gap:1rem;text-align:center;}
+}
+@media(max-width:600px){
+  .nav-links{display:none;}
+}
+</style>
+</head>
+<body>
+
+<canvas id="webgl-canvas"></canvas>
+
+<nav>
+  <a href="index.html" class="logo">HILLS <span>X</span></a>
+  <ul class="nav-links">
+    <li><a href="work.html">Work</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="contact.html" class="active">Contact</a></li>
+  </ul>
+  <div class="nav-status"><div class="dot"></div>Available for projects</div>
+</nav>
+
+<div id="content">
+
+  <!-- CONTACT -->
+  <section class="band">
+    <div class="cw">
+      <div class="ce r">03 — Get in touch</div>
+      <h2 class="ct r d1">LET'S<br><em>WORK.</em></h2>
+      <p class="cd2 r d2">Have a project in mind? I'm open to freelance work, collaborations, and interesting problems.</p>
+      <div class="cbs r d3">
+        <a href="mailto:ittztupac@gmail.com" class="cb">
+          <svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="2.5" width="10" height="7" rx="1"/><path d="M1 3.5l5 3.5 5-3.5"/></svg>
+          ittztupac@gmail.com
+        </a>
+        <a href="https://wa.me/233598490904" class="cb sec" target="_blank" rel="noopener">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          WhatsApp
+        </a>
+        <a href="https://github.com/amgtupac" class="cb sec" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://www.linkedin.com/in/hills-x" class="cb sec" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://t.snapchat.com/y4vKtQqH" class="cb sec" target="_blank" rel="noopener">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c2.9 0 5.45 1.9 6.22 4.64.13.5.2 1.03.2 1.57 0 2.2-1 4.2-2.6 5.5.15.36.23.75.23 1.16 0 1.66-1.34 3-3 3-.26 0-.5-.03-.74-.1-1 1.2-2.5 2-4.2 2-3.3 0-6-2.7-6-6 0-.35.03-.7.1-1.03C2.6 11.1 2 9.63 2 8c0-3.31 2.69-6 6-6h4zm-1.5 3c-.83 0-1.5.67-1.5 1.5S9.67 8 10.5 8 12 7.33 12 6.5 11.33 5 10.5 5zm3 0c-.83 0-1.5.67-1.5 1.5S12.67 8 13.5 8 15 7.33 15 6.5 14.33 5 13.5 5z"/></svg>
+          Snapchat
+        </a>
+        <a href="https://www.facebook.com/share/15cxNU4BWP/?mibextid=wwXIfr" class="cb sec" target="_blank" rel="noopener">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          Facebook
+        </a>
+        <a href="https://www.instagram.com/amg.tupac/profilecard" class="cb sec" target="_blank" rel="noopener">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+          Instagram
+        </a>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <div class="fl">HILLS <span>X</span></div>
+  <div class="fc">© 2025 Hills X — All rights reserved</div>
+</footer>
+
+<!-- WebGL Ocean -->
+<script>
+const canvas=document.getElementById("webgl-canvas");
+const gl=canvas.getContext("webgl",{alpha:false,antialias:false,depth:false,stencil:false,preserveDrawingBuffer:false,powerPreference:"high-performance"});
+if(!gl){canvas.style.background="#0a0a0f";}
+if(gl){
+const vs=`attribute vec2 a;void main(){gl_Position=vec4(a,0.0,1.0);}`;
+const fs=`precision highp float;
+uniform vec2 uR;uniform float uT,uS,uSc,uBl;uniform vec3 uBg;
+#define PI 3.14159265359
+#define MARCH_STEPS 24
+#define REFINE_STEPS 6
+vec3 sCol(vec3 c0,vec3 c1,vec3 c2,vec3 c3,vec3 c4){int si=int(uSc);vec3 a=c0,b=c1;if(si==1){a=c1;b=c2;}else if(si==2){a=c2;b=c3;}else if(si==3){a=c3;b=c4;}return mix(a,b,uBl);}
+float sF(float c0,float c1,float c2,float c3,float c4){int si=int(uSc);float a=c0,b=c1;if(si==1){a=c1;b=c2;}else if(si==2){a=c2;b=c3;}else if(si==3){a=c3;b=c4;}return mix(a,b,uBl);}
+float hash(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453123);}
+float noise(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.0-2.0*f);float a=hash(i),b=hash(i+vec2(1,0)),c=hash(i+vec2(0,1)),d=hash(i+vec2(1,1));return mix(mix(a,b,f.x),mix(c,d,f.x),f.y);}
+float waveH(vec2 p,float t,float amp){float h=0.0;vec2 sd=normalize(vec2(1.0,0.35));float d=dot(p,sd);h+=amp*0.28*sin(d*0.80+t*0.60);h+=amp*0.40*sin(p.x*0.70+t*0.55+p.y*0.28);h+=amp*0.24*sin(p.x*1.60-t*0.82+p.y*0.72);h+=amp*0.16*sin(p.x*3.10+t*1.15-p.y*0.50);h+=amp*0.10*sin(p.x*5.50-t*1.70+p.y*1.30);h+=amp*0.05*sin(p.x*8.60+t*2.20+p.y*1.95);h+=noise(p*18.0+vec2(t*0.35,t*0.12))*0.010*amp;return h;}
+vec3 waveNorm(vec2 p,float t,float amp){float e=0.014;float hL=waveH(p-vec2(e,0),t,amp),hR=waveH(p+vec2(e,0),t,amp),hD=waveH(p-vec2(0,e),t,amp),hU=waveH(p+vec2(0,e),t,amp);return normalize(vec3(-(hR-hL)/(2.0*e),1.0,-(hU-hD)/(2.0*e)));}
+void main(){
+vec2 uv=(gl_FragCoord.xy-uR*0.5)/uR.y;
+vec3 ro=vec3(sin(uT*0.07)*0.02,1.1+sin(uT*0.11)*0.01,0.0);
+vec3 rd=normalize(vec3(uv.x,uv.y-0.10,-1.4));
+vec3 skyTop=sCol(vec3(0.18,0.06,0.24),vec3(0.05,0.24,0.68),vec3(0.26,0.06,0.04),vec3(0.01,0.01,0.05),vec3(0.04,0.05,0.09));
+vec3 skyHori=sCol(vec3(0.92,0.48,0.18),vec3(0.42,0.62,0.90),vec3(0.88,0.32,0.04),vec3(0.03,0.05,0.14),vec3(0.15,0.17,0.23));
+vec3 sunCol=sCol(vec3(1.0,0.62,0.22),vec3(1.0,0.96,0.80),vec3(1.0,0.38,0.05),vec3(0.70,0.75,0.94),vec3(0.26,0.28,0.34));
+vec3 seaDeep=sCol(vec3(0.08,0.05,0.12),vec3(0.03,0.14,0.34),vec3(0.10,0.06,0.04),vec3(0.00,0.01,0.03),vec3(0.03,0.04,0.07));
+vec3 seaShlo=sCol(vec3(0.28,0.17,0.24),vec3(0.09,0.38,0.60),vec3(0.24,0.13,0.06),vec3(0.04,0.06,0.16),vec3(0.07,0.10,0.14));
+vec3 fogCol=sCol(vec3(0.80,0.50,0.30),vec3(0.58,0.72,0.90),vec3(0.70,0.28,0.05),vec3(0.02,0.03,0.08),vec3(0.12,0.14,0.18));
+float sunProgress=clamp(uS/0.58,0.0,1.0);float sunAngle=sunProgress*PI;
+float sunArcX=cos(sunAngle)*-0.75,sunArcY=sin(sunAngle)*0.38-0.08;
+vec3 sunDir=normalize(vec3(sunArcX,sunArcY,-1.0));
+vec3 moonDir=normalize(vec3(-0.14,0.42,-1.0));
+float warm=smoothstep(0.22,-0.08,sunDir.y);sunCol=mix(sunCol,vec3(1.0,0.55,0.25),warm*0.35);
+float waveAmp=sF(0.08,0.07,0.10,0.05,0.34),fogDen=sF(0.018,0.010,0.020,0.032,0.048),moonAmt=sF(0.0,0.0,0.05,0.92,0.06);
+float sunAbove=step(0.0,sunDir.y),sunGlow=smoothstep(-0.10,0.06,sunDir.y);
+vec3 col;
+if(rd.y<0.0){
+float tFlat=ro.y/(-rd.y),baseStep=tFlat/float(MARCH_STEPS),t=baseStep;
+for(int i=0;i<MARCH_STEPS;i++){vec2 wp2=ro.xz+rd.xz*t;if(ro.y+rd.y*t<waveH(wp2,uT,waveAmp))break;t+=baseStep;}
+float ta=t-baseStep,tb=t;
+for(int i=0;i<REFINE_STEPS;i++){float tm=(ta+tb)*0.5;vec2 wpm=ro.xz+rd.xz*tm;if(ro.y+rd.y*tm<waveH(wpm,uT,waveAmp))tb=tm;else ta=tm;}
+t=(ta+tb)*0.5;
+vec2 wp=ro.xz+rd.xz*t;vec3 n=waveNorm(wp,uT,waveAmp),vDir=-rd;
+float fres=pow(1.0-clamp(dot(n,vDir),0.0,1.0),4.0);
+vec3 refl=reflect(rd,n);float rh=clamp(refl.y,0.0,1.0);
+vec3 reflSky=mix(skyHori,skyTop,pow(rh,0.42));reflSky=mix(reflSky,skyHori,0.12);
+float rSun=max(dot(refl,sunDir),0.0);
+reflSky+=sunCol*pow(rSun,128.0)*2.2*sunGlow+sunCol*pow(rSun,18.0)*0.08*sunGlow;
+if(moonAmt>0.04){float rMoon=max(dot(refl,moonDir),0.0);reflSky+=vec3(0.72,0.80,0.95)*pow(rMoon,128.0)*0.8*moonAmt;}
+float depth=exp(-t*0.40);vec3 waterC=mix(seaDeep,seaShlo,depth*0.5);
+waterC*=mix(vec3(1.0),vec3(0.78,0.90,1.0),clamp(t*0.35,0.0,1.0));
+waterC+=noise(wp*1.9+vec2(uT*0.24,uT*0.08))*0.018*smoothstep(0.75,1.0,uS);
+col=mix(waterC,reflSky,0.15+fres*0.35);
+col+=sunCol*pow(max(dot(reflect(-sunDir,n),vDir),0.0),220.0)*1.25*sunAbove;
+col+=sunCol*pow(max(dot(reflect(-sunDir,n),vDir),0.0),36.0)*0.14*sunGlow;
+col+=sunCol*pow(max(dot(reflect(rd,n),sunDir),0.0),10.0)*0.32*smoothstep(0.0,0.35,-rd.y)*sunGlow;
+float sparkle=noise(wp*24.0+vec2(uT*0.8,uT*0.35));col+=sunCol*smoothstep(0.92,1.0,sparkle)*0.12*sunGlow*sunAbove;
+if(moonAmt>0.04){col+=vec3(0.72,0.80,0.95)*pow(max(dot(reflect(-moonDir,n),vDir),0.0),600.0)*0.11*moonAmt;}
+float hC=waveH(wp,uT,waveAmp),hL2=waveH(wp-vec2(0.02,0),uT,waveAmp),hR2=waveH(wp+vec2(0.02,0),uT,waveAmp),hD2=waveH(wp-vec2(0,0.02),uT,waveAmp),hU2=waveH(wp+vec2(0,0.02),uT,waveAmp);
+col+=clamp((hR2+hL2+hU2+hD2-4.0*hC)*28.0,0.0,1.0)*0.10*smoothstep(0.70,1.0,uS);
+col=mix(col,fogCol,1.0-exp(-t*fogDen));
+}else{col=mix(skyHori,skyTop,pow(clamp(rd.y,0.0,1.0),0.38));}
+float skyMix=smoothstep(-0.008,0.008,rd.y);
+vec3 sc=mix(skyHori,skyTop,pow(clamp(rd.y,0.0,1.0),0.38));
+float sd2=max(dot(rd,sunDir),0.0);
+sc+=sunCol*(pow(sd2,420.0)*7.2+pow(sd2,24.0)*0.22+pow(sd2,5.0)*0.10)*sunGlow;
+sc+=sunCol*smoothstep(0.9992,0.99995,dot(rd,sunDir))*2.8*sunGlow;
+sc+=sunCol*(pow(max(dot(rd,sunDir),0.0),2.0)*0.04+exp(-abs(rd.y)*24.0)*0.12+pow(max(dot(rd,sunDir),0.0),3.0)*0.04)*sunGlow;
+if(moonAmt>0.04){float md=max(dot(rd,moonDir),0.0);sc+=vec3(0.88,0.92,1.0)*(pow(md,900.0)*8.0+pow(md,6.0)*0.05)*moonAmt;}
+sc+=fogCol*exp(-abs(rd.y)*40.0)*0.08;
+float hf=exp(-abs(rd.y)*18.0),lum=dot(sc,vec3(0.333));sc=mix(sc,vec3(lum),hf*0.12);
+col=mix(col,sc,skyMix);
+col=mix(fogCol,col,smoothstep(-0.008,0.018,rd.y)*0.25+0.75);
+vec2 uvV=(gl_FragCoord.xy-uR*0.5)/uR.y;col=mix(uBg,col,smoothstep(1.15,0.35,length(uvV)));
+col+=(hash(gl_FragCoord.xy+uT*60.0)-0.5)*0.004;
+gl_FragColor=vec4(clamp(col,0.0,1.0),1.0);}`;
+
+const mkS=(t,s)=>{const sh=gl.createShader(t);gl.shaderSource(sh,s);gl.compileShader(sh);if(!gl.getShaderParameter(sh,gl.COMPILE_STATUS)){console.error(gl.getShaderInfoLog(sh));return null;}return sh;};
+const vert=mkS(gl.VERTEX_SHADER,vs),frag=mkS(gl.FRAGMENT_SHADER,fs);
+const prog=gl.createProgram();gl.attachShader(prog,vert);gl.attachShader(prog,frag);gl.linkProgram(prog);gl.useProgram(prog);
+gl.disable(gl.DEPTH_TEST);gl.disable(gl.CULL_FACE);gl.disable(gl.BLEND);gl.disable(gl.DITHER);
+const buf=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,buf);
+gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,1,1]),gl.STATIC_DRAW);
+const ap=gl.getAttribLocation(prog,"a");gl.enableVertexAttribArray(ap);gl.vertexAttribPointer(ap,2,gl.FLOAT,false,0,0);
+const uR=gl.getUniformLocation(prog,"uR"),uTi=gl.getUniformLocation(prog,"uT"),uSc2=gl.getUniformLocation(prog,"uS"),uSc3=gl.getUniformLocation(prog,"uSc"),uBl=gl.getUniformLocation(prog,"uBl"),uBgU=gl.getUniformLocation(prog,"uBg");
+const hv=(h)=>{const n=parseInt(h.replace("#",""),16);return[((n>>16)&255)/255,((n>>8)&255)/255,(n&255)/255];};
+gl.uniform3f(uBgU,...hv("#0a0a0f"));
+const N=5;let maxScroll=1,tgt=0,smooth=0,velocity=0,qS=1.0,rAF=0;
+const resize=()=>{rAF=0;const vp=window.visualViewport??{width:window.innerWidth,height:window.innerHeight};const cW=Math.round(vp.width),cH=Math.round(vp.height);if(!cW||!cH)return;const dpr=Math.min(window.devicePixelRatio||1,1.5),rs=dpr*qS,pW=Math.max(1,Math.round(cW*rs)),pH=Math.max(1,Math.round(cH*rs));if(canvas.width!==pW||canvas.height!==pH){canvas.width=pW;canvas.height=pH;canvas.style.width=cW+"px";canvas.style.height=cH+"px";gl.viewport(0,0,pW,pH);gl.uniform2f(uR,pW,pH);}maxScroll=Math.max(1,document.documentElement.scrollHeight-cH);tgt=maxScroll>0?window.scrollY/maxScroll:0;};
+const rR=()=>{if(!rAF)rAF=requestAnimationFrame(resize);};
+resize();
+window.addEventListener("resize",rR,{passive:true});
+if(window.visualViewport)window.visualViewport.addEventListener("resize",rR,{passive:true});
+window.addEventListener("scroll",()=>{tgt=maxScroll>0?window.scrollY/maxScroll:0;},{passive:true});
+let fa=0,ff=0,lft=0,hft=0;
+const aQ=(dt)=>{fa+=dt;ff++;if(fa<0.75)return;const fps=ff/fa;fa=0;ff=0;if(fps<50){lft+=0.75;hft=0;}else if(fps>57){hft+=0.75;lft=0;}else{lft=0;hft=0;}if(lft>=1.5&&qS>0.82){qS=Math.max(0.82,+(qS-0.06).toFixed(2));lft=0;rR();}if(hft>=3.0&&qS<1.0){qS=Math.min(1.0,+(qS+0.04).toFixed(2));hft=0;rR();}};
+const t0=performance.now();let lastNow=t0;
+const frame=(now)=>{requestAnimationFrame(frame);const dt=Math.min((now-lastNow)*.001,.033);lastNow=now;aQ(dt);smooth+=(tgt-smooth)*(1-Math.exp(-dt*8));const raw=smooth*(N-1),flr=Math.floor(raw),si=Math.min(flr,N-2),bl=flr>=N-1?1.0:raw-flr;gl.uniform1f(uTi,(now-t0)/1000);gl.uniform1f(uSc2,smooth);gl.uniform1f(uSc3,si);gl.uniform1f(uBl,bl);gl.drawArrays(gl.TRIANGLE_STRIP,0,4);};
+requestAnimationFrame(frame);
+}
+</script>
+
+<!-- Reveal on scroll -->
+<script>
+const io = new IntersectionObserver(e => {
+  e.forEach(x => {
+    if (x.isIntersecting) { x.target.classList.add('v'); io.unobserve(x.target); }
+  });
+}, { threshold: .1, rootMargin: '0px 0px -6% 0px' });
+document.querySelectorAll('.r').forEach(el => io.observe(el));
+</script>
+</body>
+</html>
